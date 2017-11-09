@@ -7,4 +7,5 @@ Python- Flask, Bootstrap, jQuery, Handlebars.js
 3. install virtualenv using pip if not installed "pip install virtualenv"
 4. virtualenv venv (this will create venv folder)
 5. pip install -r requirements.txt (this will install dependencies)
+6. cp config_example.py config.py (add you configuration by copying config example file)
 6. python run.py (start the application)
