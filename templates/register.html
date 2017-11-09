@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+	<a href="/connect/instagram" class="btn btn-primary">Register With Instagram</a>
+ 
+	<form action="/save_instagram_user" method="POST">
+		<!-- <input type="text" name="insta_handle" placeholder="Instagram handle"> -->
+	    {{ form.csrf_token }}
+	    {{ form.insta_handle.label }} {{ form.insta_handle(class_="form-control") }}
+		{% for message in form.insta_handle.errors %}
+			<div class="text-danger">{{ message }}</div>
+		{% endfor %}
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+{% endblock %}

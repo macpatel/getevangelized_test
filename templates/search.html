@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+	<input type="text" id="txtSearch" class="form-control" name="search_user" placeholder="Your keyword" />
+	<div class="results">
+		<ul class="list-group user_list">
+		  
+		</ul>
+		<nav aria-label="..." class="pagination_links">
+
+		</nav>
+	</div>
+
+{% raw %}
+	<script id="user-list-template" type="text/x-handlebars-template">
+	    {{#each users}}
+	    	<li class="list-group-item">
+	    		<h4>{{ username }}</h4>
+	    		<small>{{ bio }}</small>
+	    	</li>
+	    {{/each}}
+	</script>
+	<script id="pagination_template" type="text/x-handlebars-template">
+	  <ul class="pager">
+	    <li class="previous {{ prev_enable }}" ><a href="{{ prev_url }}" class="navigation_link"><span aria-hidden="true">&larr;</span> Older</a></li>
+	    <li class="next {{ next_enable }}"><a href="{{ next_url }}" class="navigation_link">Newer <span aria-hidden="true">&rarr;</span></a></li>
+	  </ul>	
+	</script>
+{% endraw %}
+
+{% endblock %}
+
+{% block js_scripts %}
+	<script type="text/javascript" src="/static/js/handlebars.min.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		var user_list_template = document.getElementById('user-list-template').innerHTML;
+		var pagination_template = document.getElementById('pagination_template').innerHTML;
+		var compiled_pagination_template = Handlebars.compile(pagination_template);	
+		var compiled_template = Handlebars.compile(user_list_template);			
+		Handlebars.registerHelper('prev_enable', function(resp) {
+		  return resp.data.root.prev_url == "" ? "disabled" : ""
+		});
+		Handlebars.registerHelper('next_enable', function(resp) {
+		  return resp.data.root.next_url == "" ? "disabled" : "";
+		});
+		var loadUsers = function(url){
+			searchQuery = $('#txtSearch').val();
+			if (url === undefined)
+				url = "/search_user/";
+			data = { query : searchQuery}
+			var req = $.ajax({
+	            url: url,
+	            type: "GET",
+	            data: data,
+	            dataType: "json"
+			});
+			req.done(function(resp){
+				users = { users : resp.results };
+				$('.user_list').html(compiled_template(users));
+
+				$('.pagination_links').html(compiled_pagination_template(resp));
+				addNavigationLinkEvent();
+				
+			});
+		};
+
+		loadUsers();
+		
+
+		var timeout;
+		$("#txtSearch").on('keyup', function () {
+		    window.clearTimeout(timeout);
+		    timeout = window.setTimeout(function(){
+		       loadUsers();
+		    },500);
+
+		});
+		var addNavigationLinkEvent = function(){
+			$('.navigation_link').on('click', function(e){
+				e.preventDefault();
+				loadUsers(this.getAttribute("href"));
+			});
+		};
+	});
+	</script>
+
+{% endblock %}
