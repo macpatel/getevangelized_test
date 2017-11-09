@@ -22,9 +22,9 @@ def search_users():
     per_page =int(per_page)
     skip = (page-1) * per_page
     if query == "":
-        users = Users.objects().only('username', 'bio')
+        users = Users.objects().only('name', 'username', 'bio', 'profile_image_url')
     else:
-        users = Users.objects().only('username', 'bio').search_text(query)
+        users = Users.objects().only('name', 'username', 'bio', 'profile_image_url').search_text(query)
     total_users = users.count()
     total_pages = int(math.ceil(total_users/per_page))
     is_next= (page < total_pages) if (total_pages/per_page == 0) else (page <= total_pages)

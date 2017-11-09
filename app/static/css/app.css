@@ -1,0 +1,12 @@
+body{
+	background-color: #FEE;
+}
+.row{
+	margin-bottom: 15px;
+}
+.container{
+	padding-top: 5%;
+}
+.user_list{
+	min-height: 230px;
+}

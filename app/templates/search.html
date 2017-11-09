@@ -1,25 +1,60 @@
 {% extends "layout.html" %}
 
 {% block body %}
+	<!-- <center> -->
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="page-header text-center">
+					<h2>Search Instagram profiles</h2>
+				</div>
+				<hr>
+				<input type="text" id="txtSearch" class="form-control" name="search_user" placeholder="Your keyword" />
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">		
+				<div class="results">
+					<ul class="list-group user_list">
+					  
+					</ul>
+					<nav aria-label="..." class="pagination_links">
 
-	<input type="text" id="txtSearch" class="form-control" name="search_user" placeholder="Your keyword" />
-	<div class="results">
-		<ul class="list-group user_list">
-		  
-		</ul>
-		<nav aria-label="..." class="pagination_links">
-
-		</nav>
-	</div>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="text-center">
+				<a class="" href="/">Go Home</a>
+			</div>
+		</div>			
+	<!-- </center> -->
 
 {% raw %}
 	<script id="user-list-template" type="text/x-handlebars-template">
-	    {{#each users}}
-	    	<li class="list-group-item">
-	    		<h4>{{ username }}</h4>
-	    		<small>{{ bio }}</small>
-	    	</li>
-	    {{/each}}
+		{{#isArrayNotEmpty users}}
+			{{#each users}}
+			<div class="media">
+			  <div class="media-left">
+			    <a href="https://www.instagram.com/{{username}}">
+			      <img class="media-object" src="{{profile_image_url}}" width="64px" height="64px">
+			    </a>
+			  </div>
+			  <div class="media-body">
+			    <h4 class="media-heading">
+			    	<a href="https://www.instagram.com/{{username}}">{{ name }} </a>
+			    	<small>{{username}}</small>
+			    </h4>
+			   {{ bio }}
+			  </div>
+			</div>
+			{{/each}}
+		{{else}}
+			<div class="text-center">
+				<h4 class="text-muted">Nothing found, Try some other keyword.</h4>
+			</div>
+
+		{{/isArrayNotEmpty}}
 	</script>
 	<script id="pagination_template" type="text/x-handlebars-template">
 	  <ul class="pager">
@@ -45,6 +80,13 @@
 		Handlebars.registerHelper('next_enable', function(resp) {
 		  return resp.data.root.next_url == "" ? "disabled" : "";
 		});
+		Handlebars.registerHelper('isArrayNotEmpty', function(v1, options) {
+		  	if(v1 instanceof Array && v1.length > 0) {
+		    	return options.fn(this);
+			} else {
+			    return options.inverse(this);
+			}
+		});		
 		var loadUsers = function(url){
 			searchQuery = $('#txtSearch').val();
 			if (url === undefined)

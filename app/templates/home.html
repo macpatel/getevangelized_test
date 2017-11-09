@@ -1,6 +1,21 @@
 {% extends "layout.html" %}
 
 {% block body %}
-	<a href="/register" class="btn btn-primary">I'm An Influencer</a>
-	<a href="/search">I'm a Brand</a>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="page-header">
+				<h1 class="text-center">Who Are You?</h1>
+			</div>			
+			<a href="/register" class="btn btn-success btn-lg pull-left">I'm An Influencer</a>
+			<a href="/search" class="btn btn-warning btn-lg pull-right">I'm a Brand</a>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="text-center">
+				<span class="text-muted"><a href="https://twitter.com/mahesh_patel_">Mahesh Patel</a> </span>
+			</div>
+		</div>
+	</div>	
 {% endblock %}
