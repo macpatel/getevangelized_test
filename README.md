@@ -8,4 +8,5 @@ Python- Flask, Bootstrap, jQuery, Handlebars.js
 4. "virtualenv venv" (this will create venv folder)
 5. "pip install -r requirements.txt" (this will install dependencies)
 6. run this command -> ". venv/bin/activate" (yes that is a dot) it will actiavate the virtualenv
-6. "python run.py" (start the application)
+7. cp config_example.py config.py (add you configuration by copying config example file)
+8. "python run.py" (start the application)
